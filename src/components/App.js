@@ -1,21 +1,33 @@
 // This is the top-level component
 // so we'll keep application state at this level.
 // 👉 1- Import the state hook!
-import React from 'react'
+import React, { useState } from 'react'
 import FriendsList from './FriendsList'
 import Search from './Search'
 // 👉 2- Import the dummy data that will power the application.
 // (Tomorrow we'll fetch the data from an API instead.)
-
+import friendsData, { hello } from "../dummy-data/friends";
+console.log(hello);
+console.log(friendsData);
 
 export default function App() {
   // 👉 3- Initialize a slice of state to keep track of the data
   // using the dummy data as the initial value of the slice of state
-
+const [friends, setFriends] = useState(friendsData);
   // 👉 4- Initialize a slice to keep track of the value of the search box
   // using an empty string as the initial value of the slice
-
+const [searchTerm, setSearchTerm] = useState("");
   // 👉 5- Build a `changeStatus` function that takes an id and
+const changeStates = (id) => {
+  console.log(id);
+  const updatedFriends = friends.map(fr => {
+    if (fr.id === id) {
+      return {...fr, married: !fr.married}
+    } else {
+      return fr;
+    }
+  })
+}
   // changes the `married` from true to false and viceversa
 
   // STRETCH - Make a helper function that returns
@@ -26,7 +38,12 @@ export default function App() {
       {/* 👉 6- Render the Search component */}
       {/* STRETCH - Changes to the input should update the search term */}
 
+      <Search setSearchTerm={setSearchTerm} />
+      
       {/* 👉 7- Render the FriendsList component */}
+
+      <FriendsList friends = { friends } />
+
       {/* What prop/props does FriendsList need? */}
     </div>
   )
